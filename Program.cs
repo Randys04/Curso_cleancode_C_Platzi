@@ -34,16 +34,35 @@ namespace ToDo
         /// <returns>Returns option indicated by user</returns>
         public static int ShowMainMenu()
         {
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine("Ingrese la opción a realizar: ");
-            Console.WriteLine("1. Nueva tarea");
-            Console.WriteLine("2. Remover tarea");
-            Console.WriteLine("3. Tareas pendientes");
-            Console.WriteLine("4. Salir");
+            try
+            {
+                string optionSelected;
+                do
+                {
+                    Console.WriteLine("----------------------------------------");
+                    Console.WriteLine("Ingrese la opción a realizar: ");
+                    Console.WriteLine("1. Nueva tarea");
+                    Console.WriteLine("2. Remover tarea");
+                    Console.WriteLine("3. Tareas pendientes");
+                    Console.WriteLine("4. Salir");
 
-            // Read line
-            string optionSelected = Console.ReadLine();
-            return Convert.ToInt32(optionSelected);
+                    // Read line
+                    optionSelected = Console.ReadLine();
+                    if (Convert.ToInt32(optionSelected) > 4 || Convert.ToInt32(optionSelected) < 1)
+                    {
+                        Console.WriteLine("La opcion ingresada no es valida");
+                    }
+                    return Convert.ToInt32(optionSelected);
+                } while (Convert.ToInt32(optionSelected) > 4 || Convert.ToInt32(optionSelected) < 1);
+                
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Ha ocurrido un error al ingresar la opcion");
+                return 0;
+            }
+            
         }
 
         public static void ShowMenuRemove()
@@ -57,15 +76,25 @@ namespace ToDo
                 string taskSelected = Console.ReadLine();
                 // Remove one position
                 int indexToRemove = Convert.ToInt32(taskSelected) - 1;
-                if (indexToRemove > -1 && TaskList.Count > 0)
-                {   
-                    string removedTask = TaskList[indexToRemove];
-                    TaskList.RemoveAt(indexToRemove);
-                    Console.WriteLine("Tarea " + removedTask + " eliminada");   
+                if(indexToRemove  > (TaskList.Count - 1) || indexToRemove < 0) 
+                {
+                    Console.WriteLine("El numero de tarea seleccionado no es valido");
                 }
+                else
+                {
+                    if (indexToRemove > -1 && TaskList.Count > 0)
+                    {
+                        string removedTask = TaskList[indexToRemove];
+                        TaskList.RemoveAt(indexToRemove);
+                        Console.WriteLine("Tarea " + removedTask + " eliminada");
+                    }
+                }
+
+                
             }
             catch (Exception)
             {
+                Console.WriteLine("Ha ocurrido un error al eliminar la tarea seleccionada");
             }
         }
 
